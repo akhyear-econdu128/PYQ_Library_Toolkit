@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="dark"> <head>
+<html lang="en" class="dark">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexPYQ - Premium AI Study Hub</title>
+    <title>NexPYQ - Econ & Data Hub</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,9 +13,9 @@
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        darkbg: '#0f172a', // slate-900
-                        darkcard: '#1e293b', // slate-800
-                        darkborder: '#334155', // slate-700
+                        darkbg: '#0f172a', 
+                        darkcard: '#1e293b', 
+                        darkborder: '#334155', 
                     }
                 }
             }
@@ -23,31 +24,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Smooth Global Transitions */
-        body, main, aside, div, nav, header {
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Animations */
+        body, main, aside, div, nav, header { transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
         .ai-panel { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .ai-panel.open { transform: translateX(0); }
-        
         .modal { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         .modal.open { opacity: 1; pointer-events: auto; }
-
-        @keyframes scan-line {
-            0% { top: 0; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-        }
-        .scanner-line {
-            position: absolute; width: 100%; height: 2px; background: #3b82f6;
-            box-shadow: 0 0 12px #3b82f6; animation: scan-line 2s infinite linear; display: none;
-        }
+        @keyframes scan-line { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        .scanner-line { position: absolute; width: 100%; height: 2px; background: #3b82f6; box-shadow: 0 0 12px #3b82f6; animation: scan-line 2s infinite linear; display: none; }
         .scanning .scanner-line { display: block; }
-        
-        /* Skeleton */
         @keyframes pulse-light { 0%, 100% { background-color: #f1f5f9; } 50% { background-color: #e2e8f0; } }
         @keyframes pulse-dark { 0%, 100% { background-color: #334155; } 50% { background-color: #475569; } }
         .skeleton { animation: pulse-light 1.5s infinite ease-in-out; border-radius: 6px; }
@@ -59,7 +43,7 @@
     <nav class="bg-white/80 dark:bg-darkbg/80 backdrop-blur-md border-b border-slate-200 dark:border-darkborder px-6 py-3 flex justify-between items-center z-30 shadow-sm relative">
         <div class="flex items-center gap-3">
             <h1 class="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300">NexPYQ.</h1>
-            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs px-2.5 py-0.5 rounded-full border border-blue-200 dark:border-blue-700/50 font-semibold shadow-sm">v4.0 Pro</span>
+            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs px-2.5 py-0.5 rounded-full border border-blue-200 dark:border-blue-700/50 font-semibold shadow-sm">v4.1 Custom</span>
         </div>
         <div class="flex items-center gap-4">
             <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -85,16 +69,27 @@
                 <div>
                     <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Library Setup</h3>
                     
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Reference Book</label>
-                    <select class="w-full bg-slate-50 dark:bg-darkcard border border-slate-200 dark:border-darkborder text-slate-700 dark:text-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4 shadow-sm appearance-none">
-                        <option>Fundamentals of Physics (11th Ed)</option>
-                        <option>University Physics with Modern Physics</option>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Select Course</label>
+                    <select class="w-full bg-slate-50 dark:bg-darkcard border border-slate-200 dark:border-darkborder text-slate-700 dark:text-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4 shadow-sm font-medium">
+                        <optgroup label="Present Courses" class="font-bold text-blue-600 dark:text-blue-400">
+                            <option value="eco2" class="text-slate-700 dark:text-slate-200 font-normal" selected>Econometrics II</option>
+                            <option value="dynopt" class="text-slate-700 dark:text-slate-200 font-normal">Dynamic Optimization</option>
+                            <option value="pubeco" class="text-slate-700 dark:text-slate-200 font-normal">Public Economics</option>
+                            <option value="datasci" class="text-slate-700 dark:text-slate-200 font-normal">Data Science</option>
+                        </optgroup>
+                        <optgroup label="Improvements" class="font-bold text-amber-600 dark:text-amber-500 mt-2">
+                            <option value="imicro" class="text-slate-700 dark:text-slate-200 font-normal">Intermediate Microeconomics</option>
+                            <option value="imacro" class="text-slate-700 dark:text-slate-200 font-normal">Intermediate Macroeconomics</option>
+                            <option value="stats" class="text-slate-700 dark:text-slate-200 font-normal">Statistical Methods</option>
+                            <option value="acc" class="text-slate-700 dark:text-slate-200 font-normal">Accounting</option>
+                        </optgroup>
                     </select>
                     
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Chapter</label>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Chapter / Module</label>
                     <select class="w-full bg-slate-50 dark:bg-darkcard border border-slate-200 dark:border-darkborder text-slate-700 dark:text-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm appearance-none">
-                        <option>Ch 18: Thermodynamics</option>
-                        <option>Ch 19: Kinetic Theory of Gases</option>
+                        <option>Ch 1: Panel Data Models (FE & RE)</option>
+                        <option>Ch 2: Instrumental Variables (IV)</option>
+                        <option>Ch 3: Time Series Analysis</option>
                     </select>
                 </div>
 
@@ -134,27 +129,27 @@
                     <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
                     
                     <h3 class="text-xl font-bold flex items-center gap-2 mb-5 relative z-10">
-                        <span class="text-2xl">✨</span> Gemini Chapter Insights: Thermodynamics
+                        <span class="text-2xl">✨</span> Gemini Insights: Panel Data Models
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-5 relative z-10">
                         <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/10 hover:bg-white/15 transition-colors">
-                            <div class="text-xs text-indigo-300 uppercase font-bold tracking-wider mb-2">Most Tested Topic</div>
-                            <div class="font-medium text-sm leading-relaxed">Carnot Engine Efficiency (Appears in 85% of Finals)</div>
+                            <div class="text-xs text-indigo-300 uppercase font-bold tracking-wider mb-2">Most Tested Concept</div>
+                            <div class="font-medium text-sm leading-relaxed">Fixed vs. Random Effects (Appears in 90% of Finals)</div>
                         </div>
                         <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/10 hover:bg-white/15 transition-colors">
-                            <div class="text-xs text-blue-300 uppercase font-bold tracking-wider mb-2">High-Yield Formula</div>
-                            <div class="font-medium text-sm leading-relaxed">dS = dQ/T (Crucial for Mid-terms)</div>
+                            <div class="text-xs text-blue-300 uppercase font-bold tracking-wider mb-2">High-Yield Metric</div>
+                            <div class="font-medium text-sm leading-relaxed">Hausman Test Statistic & Covariance assumptions.</div>
                         </div>
                         <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/10 hover:bg-white/15 transition-colors">
                             <div class="text-xs text-purple-300 uppercase font-bold tracking-wider mb-2">AI Prediction</div>
-                            <div class="font-medium text-sm leading-relaxed">Expect a 15-mark Incourse question on Isothermal vs Adiabatic.</div>
+                            <div class="font-medium text-sm leading-relaxed">Expect a 15-mark derivation of the "Within Estimator" for the Incourse.</div>
                         </div>
                     </div>
                 </div>
 
                 <div>
                     <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-bold text-slate-800 dark:text-slate-200">Historical Questions (Ch 18)</h2>
+                        <h2 class="text-xl font-bold text-slate-800 dark:text-slate-200">Historical Questions (Econometrics II)</h2>
                         <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Showing 2 matches</span>
                     </div>
                     
@@ -165,9 +160,9 @@
                                     <span class="px-3 py-1 bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400 rounded-lg text-xs font-bold border border-red-100 dark:border-red-500/20">Final (50 Marks)</span>
                                     <span class="px-3 py-1 bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-600">Year: 2023</span>
                                 </div>
-                                <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-wide uppercase">Topic: Entropy</span>
+                                <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-wide uppercase">Topic: Estimator Selection</span>
                             </div>
-                            <p class="text-slate-800 dark:text-slate-200 font-medium text-lg mb-6 leading-relaxed">Calculate the change in entropy when 2 moles of an ideal gas expand isothermally at 300K from 10L to 20L.</p>
+                            <p class="text-slate-800 dark:text-slate-200 font-medium text-lg mb-6 leading-relaxed">Explain the fundamental difference between Fixed Effects (FE) and Random Effects (RE) models regarding the unobserved individual effect. Describe the formal test used to choose between them.</p>
                             <button onclick="openAI('Q1')" class="bg-slate-900 hover:bg-blue-600 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors shadow-sm flex items-center gap-2">
                                 <span>✨</span> Generate Exam-Grade Answer
                             </button>
@@ -179,9 +174,9 @@
                                     <span class="px-3 py-1 bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400 rounded-lg text-xs font-bold border border-amber-100 dark:border-amber-500/20">Mid-term (30 Marks)</span>
                                     <span class="px-3 py-1 bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-600">Year: 2022</span>
                                 </div>
-                                <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-wide uppercase">Topic: Carnot Engine</span>
+                                <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-wide uppercase">Topic: Derivations</span>
                             </div>
-                            <p class="text-slate-800 dark:text-slate-200 font-medium text-lg mb-6 leading-relaxed">A Carnot engine operates between two heat reservoirs at temperatures 500K and 300K. If it absorbs 1000J of heat from the hot reservoir, what is the work done?</p>
+                            <p class="text-slate-800 dark:text-slate-200 font-medium text-lg mb-6 leading-relaxed">Derive the Fixed Effects (Within) estimator for a panel data model with two time periods ($T=2$). Prove mathematically that time-demeaning eliminates the unobserved time-invariant individual effect ($a_i$).</p>
                             <button onclick="openAI('Q2')" class="bg-slate-900 hover:bg-blue-600 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors shadow-sm flex items-center gap-2">
                                 <span>✨</span> Generate Exam-Grade Answer
                             </button>
@@ -208,8 +203,8 @@
             <div class="bg-green-50/80 dark:bg-emerald-900/20 border border-green-200 dark:border-emerald-800/50 rounded-xl p-5 mb-8 text-sm">
                 <strong class="flex items-center gap-2 mb-2 text-green-800 dark:text-emerald-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Grounding Sources Active:</strong>
                 <ul class="list-disc pl-6 text-green-700 dark:text-emerald-300/80 mt-1 space-y-1.5 font-medium">
-                    <li><em>Fundamentals of Physics (11th Ed).pdf</em> - Chapter 18</li>
-                    <li>Google Search: MIT OpenCourseWare recent examples</li>
+                    <li><em>Introductory Econometrics (Wooldridge, 7th Ed).pdf</em> - Chapter 14</li>
+                    <li>Google Scholar: Hausman Specification Test</li>
                 </ul>
             </div>
 
@@ -245,12 +240,8 @@
     <div id="overlay" onclick="closeAI()" class="fixed inset-0 bg-slate-900/20 dark:bg-black/40 backdrop-blur-sm z-40 hidden transition-opacity"></div>
 
     <script>
-        // --- Theme Toggle Logic ---
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-        }
+        function toggleTheme() { document.documentElement.classList.toggle('dark'); }
 
-        // --- AI Panel Logic ---
         const aiPanel = document.getElementById('aiPanel');
         const overlay = document.getElementById('overlay');
         const loader = document.getElementById('loader');
@@ -268,41 +259,32 @@
                 finalAnswer.innerHTML = `
                     <h4 class="font-bold text-slate-900 dark:text-white mb-4 text-base border-b border-slate-200 dark:border-darkborder pb-3">Full Exam-Grade Solution</h4>
                     <div class="space-y-4 text-base">
-                        <p><strong>1. Identify the concept:</strong> This question tests the understanding of entropy change (ΔS) for an isothermal expansion of an ideal gas. According to <em>Fundamentals of Physics, Ch 18, Sec 18.2</em>.</p>
-                        <p><strong>2. State the Formula:</strong><br>
-                        For an isothermal process, the change in entropy is:<br>
-                        <span class="block bg-slate-100 dark:bg-slate-800 p-4 rounded-lg font-mono text-center my-3 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 shadow-inner">ΔS = nR ln(V₂ / V₁)</span></p>
-                        <p><strong>3. Execution:</strong><br>
-                        • n = 2 moles<br>
-                        • R = 8.314 J/(mol·K) (Verified via Web Search)<br>
-                        • V₁ = 10 L, V₂ = 20 L</p>
-                        <p class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg border border-slate-100 dark:border-slate-700/50">ΔS = (2)(8.314) ln(20/10) = 16.628 × 0.693</p>
+                        <p><strong>1. The Core Difference:</strong><br>
+                        In a panel data model $y_{it} = \\beta x_{it} + a_i + u_{it}$, the critical difference lies in the assumption about the unobserved individual effect, $a_i$.</p>
+                        <ul class="list-disc pl-5 mt-2 space-y-2">
+                            <li><strong>Fixed Effects (FE):</strong> Assumes that $a_i$ is correlated with the explanatory variables ($Cov(x_{it}, a_i) \\neq 0$).</li>
+                            <li><strong>Random Effects (RE):</strong> Assumes that $a_i$ is strictly uncorrelated with the explanatory variables ($Cov(x_{it}, a_i) = 0$).</li>
+                        </ul>
+                        <p class="mt-4"><strong>2. The Hausman Test:</strong><br>
+                        To decide between them, we use the Hausman Specification Test. The null hypothesis ($H_0$) is that $Cov(x_{it}, a_i) = 0$ (meaning RE is consistent and efficient). The alternative hypothesis ($H_a$) is that $Cov(x_{it}, a_i) \\neq 0$ (meaning RE is inconsistent, and FE must be used).</p>
                         <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-5 rounded-r-lg mt-6 shadow-sm">
-                            <span class="font-bold text-blue-900 dark:text-blue-300 uppercase tracking-wider text-xs">Final Answer</span><br>
-                            <span class="text-blue-800 dark:text-blue-400 text-xl font-extrabold block mt-1">ΔS = +11.53 J/K</span>
+                            <span class="font-bold text-blue-900 dark:text-blue-300 uppercase tracking-wider text-xs">Conclusion for Exam</span><br>
+                            <span class="text-blue-800 dark:text-blue-400 font-semibold block mt-1">If the Hausman test p-value is < 0.05, we reject the null and conclude that the Fixed Effects model is the appropriate choice.</span>
                         </div>
                     </div>
                 `;
             }, 2000);
         }
 
-        function closeAI() { 
-            aiPanel.classList.remove('open'); 
-            overlay.classList.add('hidden');
-        }
+        function closeAI() { aiPanel.classList.remove('open'); overlay.classList.add('hidden'); }
 
-        // --- Upload & Transcribe Logic ---
         const uploadModal = document.getElementById('uploadModal');
         const dropZone = document.getElementById('dropZone');
         const uploadText = document.getElementById('uploadText');
         const questionList = document.getElementById('questionList');
 
         function openUploadModal() { uploadModal.classList.add('open'); }
-        function closeUploadModal() { 
-            uploadModal.classList.remove('open'); 
-            dropZone.classList.remove('scanning');
-            uploadText.innerText = "Drag image here or click to browse";
-        }
+        function closeUploadModal() { uploadModal.classList.remove('open'); dropZone.classList.remove('scanning'); uploadText.innerText = "Drag image here or click to browse"; }
 
         function simulateTranscription() {
             dropZone.classList.add('scanning');
@@ -319,9 +301,9 @@
                             <span class="px-3 py-1 bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400 rounded-lg text-xs font-bold border border-indigo-100 dark:border-indigo-500/20">Incourse (15 Marks)</span>
                             <span class="px-3 py-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-lg text-xs font-bold border border-emerald-200 dark:border-emerald-500/20 animate-pulse">✨ Just Transcribed</span>
                         </div>
-                        <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-wide uppercase">Topic: First Law</span>
+                        <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-wide uppercase">Topic: Instrumental Variables</span>
                     </div>
-                    <p class="text-slate-800 dark:text-slate-200 font-medium text-lg mb-6 leading-relaxed">State the First Law of Thermodynamics and express it mathematically. Explain the sign conventions for Heat (Q) and Work (W).</p>
+                    <p class="text-slate-800 dark:text-slate-200 font-medium text-lg mb-6 leading-relaxed">State the two conditions a variable $z$ must satisfy to be a valid instrumental variable for an endogenous regressor $x$. Explain why these conditions cannot be formally tested using the same dataset.</p>
                     <button onclick="openAI('Q3')" class="bg-slate-900 hover:bg-blue-600 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors shadow-sm flex items-center gap-2">
                         <span>✨</span> Generate Exam-Grade Answer
                     </button>
