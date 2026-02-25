@@ -1,14 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" class="dark"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexPYQ - Intelligent Study Hub</title>
+    <title>NexPYQ - Premium AI Study Hub</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        darkbg: '#0f172a', // slate-900
+                        darkcard: '#1e293b', // slate-800
+                        darkborder: '#334155', // slate-700
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        
+        /* Smooth Global Transitions */
+        body, main, aside, div, nav, header {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
         /* Animations */
         .ai-panel { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .ai-panel.open { transform: translateX(0); }
@@ -24,25 +43,36 @@
         }
         .scanner-line {
             position: absolute; width: 100%; height: 2px; background: #3b82f6;
-            box-shadow: 0 0 10px #3b82f6; animation: scan-line 2s infinite linear; display: none;
+            box-shadow: 0 0 12px #3b82f6; animation: scan-line 2s infinite linear; display: none;
         }
         .scanning .scanner-line { display: block; }
         
         /* Skeleton */
-        @keyframes pulse-bg { 0%, 100% { background-color: #f1f5f9; } 50% { background-color: #e2e8f0; } }
-        .skeleton { animation: pulse-bg 1.5s infinite ease-in-out; border-radius: 4px; }
+        @keyframes pulse-light { 0%, 100% { background-color: #f1f5f9; } 50% { background-color: #e2e8f0; } }
+        @keyframes pulse-dark { 0%, 100% { background-color: #334155; } 50% { background-color: #475569; } }
+        .skeleton { animation: pulse-light 1.5s infinite ease-in-out; border-radius: 6px; }
+        .dark .skeleton { animation: pulse-dark 1.5s infinite ease-in-out; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 h-screen flex flex-col overflow-hidden">
+<body class="bg-slate-50 text-slate-800 dark:bg-darkbg dark:text-slate-200 h-screen flex flex-col overflow-hidden">
 
-    <nav class="bg-white border-b border-slate-200 px-6 py-3 flex justify-between items-center z-20 shadow-sm">
-        <div class="flex items-center gap-2">
-            <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">NexPYQ.</h1>
-            <span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded border border-blue-200 font-medium">v3.0</span>
+    <nav class="bg-white/80 dark:bg-darkbg/80 backdrop-blur-md border-b border-slate-200 dark:border-darkborder px-6 py-3 flex justify-between items-center z-30 shadow-sm relative">
+        <div class="flex items-center gap-3">
+            <h1 class="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-300">NexPYQ.</h1>
+            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs px-2.5 py-0.5 rounded-full border border-blue-200 dark:border-blue-700/50 font-semibold shadow-sm">v4.0 Pro</span>
         </div>
         <div class="flex items-center gap-4">
-            <button class="text-sm text-slate-500 hover:text-slate-800 font-medium">⚙️ API Settings</button>
-            <button class="flex items-center gap-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition-colors">
+            <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg id="theme-icon-sun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <svg id="theme-icon-moon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+            
+            <button class="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white font-medium flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                API Settings
+            </button>
+
+            <button class="flex items-center gap-2 bg-white dark:bg-darkcard border border-slate-300 dark:border-darkborder hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors">
                 <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
                 Continue with Google
             </button>
@@ -50,105 +80,110 @@
     </nav>
 
     <div class="flex flex-1 overflow-hidden">
-        <aside class="w-72 bg-white border-r border-slate-200 flex flex-col z-10">
-            <div class="p-6 flex-1 overflow-y-auto space-y-6">
+        <aside class="w-72 bg-white dark:bg-darkbg border-r border-slate-200 dark:border-darkborder flex flex-col z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-[4px_0_24px_rgba(0,0,0,0.2)]">
+            <div class="p-6 flex-1 overflow-y-auto space-y-8">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Reference Book</label>
-                    <select class="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none mb-3">
+                    <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Library Setup</h3>
+                    
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Reference Book</label>
+                    <select class="w-full bg-slate-50 dark:bg-darkcard border border-slate-200 dark:border-darkborder text-slate-700 dark:text-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4 shadow-sm appearance-none">
                         <option>Fundamentals of Physics (11th Ed)</option>
                         <option>University Physics with Modern Physics</option>
                     </select>
                     
-                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Chapter</label>
-                    <select class="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Chapter</label>
+                    <select class="w-full bg-slate-50 dark:bg-darkcard border border-slate-200 dark:border-darkborder text-slate-700 dark:text-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm appearance-none">
                         <option>Ch 18: Thermodynamics</option>
                         <option>Ch 19: Kinetic Theory of Gases</option>
                     </select>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Filter by Exam Type</label>
-                    <div class="space-y-2">
-                        <label class="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded border-slate-300">
-                            <span class="text-sm text-slate-600">Final Exam (50 Marks)</span>
+                    <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Filter By Exam</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 cursor-pointer group">
+                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 bg-slate-100 dark:bg-darkcard border-slate-300 dark:border-darkborder rounded focus:ring-blue-500 focus:ring-offset-0">
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Final Exam (50 Marks)</span>
                         </label>
-                        <label class="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded border-slate-300">
-                            <span class="text-sm text-slate-600">Mid-term (30 Marks)</span>
+                        <label class="flex items-center space-x-3 cursor-pointer group">
+                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 bg-slate-100 dark:bg-darkcard border-slate-300 dark:border-darkborder rounded focus:ring-blue-500 focus:ring-offset-0">
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Mid-term (30 Marks)</span>
                         </label>
-                        <label class="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded border-slate-300">
-                            <span class="text-sm text-slate-600">Incourse (15 Marks)</span>
+                        <label class="flex items-center space-x-3 cursor-pointer group">
+                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 bg-slate-100 dark:bg-darkcard border-slate-300 dark:border-darkborder rounded focus:ring-blue-500 focus:ring-offset-0">
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Incourse (15 Marks)</span>
                         </label>
                     </div>
                 </div>
             </div>
         </aside>
 
-        <main class="flex-1 flex flex-col overflow-y-auto bg-slate-50/50 p-8 relative">
-            <div class="max-w-4xl mx-auto w-full space-y-6">
+        <main class="flex-1 flex flex-col overflow-y-auto bg-slate-50/50 dark:bg-darkbg p-8 relative scroll-smooth">
+            <div class="max-w-4xl mx-auto w-full space-y-8">
                 
-                <div onclick="openUploadModal()" class="border-2 border-dashed border-blue-300 bg-blue-50/30 hover:bg-blue-50 rounded-xl p-8 text-center cursor-pointer transition-colors group">
-                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                <div onclick="openUploadModal()" class="border-2 border-dashed border-blue-300 dark:border-blue-500/30 bg-blue-50/50 dark:bg-blue-900/10 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 group">
+                    <div class="bg-white dark:bg-darkcard shadow-sm w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:-translate-y-1 transition-transform duration-300">
+                        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                     </div>
-                    <h3 class="font-semibold text-blue-800 text-lg">Upload Scanned PYQ</h3>
-                    <p class="text-blue-600/70 text-sm mt-1">Drag and drop an exam image, and Gemini Pro will immediately transcribe and sort it by chapter.</p>
+                    <h3 class="font-bold text-slate-800 dark:text-slate-200 text-lg">Upload Scanned PYQ</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-2 max-w-md mx-auto">Drag and drop an exam image, and Gemini Pro Vision will instantly transcribe and sort it by topic.</p>
                 </div>
 
-                <div class="bg-gradient-to-br from-indigo-900 to-slate-900 rounded-xl p-6 text-white shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-20">
-                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 7.5l-10-5v10.5l10 5 10-5V4.5l-10 5z"/></svg>
-                    </div>
-                    <h3 class="text-lg font-bold flex items-center gap-2 mb-3 relative z-10">
-                        <span>✨</span> Gemini Chapter Insights: Thermodynamics
+                <div class="bg-gradient-to-br from-indigo-900 via-slate-900 to-blue-900 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden border border-white/10">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+                    <div class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+                    
+                    <h3 class="text-xl font-bold flex items-center gap-2 mb-5 relative z-10">
+                        <span class="text-2xl">✨</span> Gemini Chapter Insights: Thermodynamics
                     </h3>
-                    <div class="grid grid-cols-3 gap-4 relative z-10">
-                        <div class="bg-white/10 rounded-lg p-4 border border-white/20">
-                            <div class="text-xs text-indigo-200 uppercase font-semibold mb-1">Most Tested Topic</div>
-                            <div class="font-medium text-sm">Carnot Engine Efficiency (Appears in 85% of Finals)</div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 relative z-10">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/10 hover:bg-white/15 transition-colors">
+                            <div class="text-xs text-indigo-300 uppercase font-bold tracking-wider mb-2">Most Tested Topic</div>
+                            <div class="font-medium text-sm leading-relaxed">Carnot Engine Efficiency (Appears in 85% of Finals)</div>
                         </div>
-                        <div class="bg-white/10 rounded-lg p-4 border border-white/20">
-                            <div class="text-xs text-indigo-200 uppercase font-semibold mb-1">High-Yield Formula</div>
-                            <div class="font-medium text-sm">dS = dQ/T (Crucial for Mid-terms)</div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/10 hover:bg-white/15 transition-colors">
+                            <div class="text-xs text-blue-300 uppercase font-bold tracking-wider mb-2">High-Yield Formula</div>
+                            <div class="font-medium text-sm leading-relaxed">dS = dQ/T (Crucial for Mid-terms)</div>
                         </div>
-                        <div class="bg-white/10 rounded-lg p-4 border border-white/20">
-                            <div class="text-xs text-indigo-200 uppercase font-semibold mb-1">Prediction</div>
-                            <div class="font-medium text-sm">Expect a 15-mark Incourse question on Isothermal vs Adiabatic processes.</div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/10 hover:bg-white/15 transition-colors">
+                            <div class="text-xs text-purple-300 uppercase font-bold tracking-wider mb-2">AI Prediction</div>
+                            <div class="font-medium text-sm leading-relaxed">Expect a 15-mark Incourse question on Isothermal vs Adiabatic.</div>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Historical Questions (Ch 18)</h2>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-slate-800 dark:text-slate-200">Historical Questions (Ch 18)</h2>
+                        <span class="text-sm font-medium text-slate-500 dark:text-slate-400">Showing 2 matches</span>
+                    </div>
                     
-                    <div class="space-y-4" id="questionList">
-                        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
-                            <div class="flex justify-between items-start mb-3">
-                                <div class="flex gap-2">
-                                    <span class="px-2.5 py-1 bg-red-50 text-red-700 rounded-md text-xs font-bold border border-red-100">Final (50 Marks)</span>
-                                    <span class="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-medium border border-slate-200">Year: 2023</span>
+                    <div class="space-y-5" id="questionList">
+                        <div class="bg-white dark:bg-darkcard rounded-2xl p-7 border border-slate-200 dark:border-darkborder shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400 rounded-lg text-xs font-bold border border-red-100 dark:border-red-500/20">Final (50 Marks)</span>
+                                    <span class="px-3 py-1 bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-600">Year: 2023</span>
                                 </div>
-                                <span class="text-xs text-slate-400 font-medium">Topic: Entropy</span>
+                                <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-wide uppercase">Topic: Entropy</span>
                             </div>
-                            <p class="text-slate-800 font-medium text-lg mb-4">Calculate the change in entropy when 2 moles of an ideal gas expand isothermally at 300K from 10L to 20L.</p>
-                            <button onclick="openAI('Q1')" class="bg-slate-900 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                                ✨ Generate Exam-Grade Answer
+                            <p class="text-slate-800 dark:text-slate-200 font-medium text-lg mb-6 leading-relaxed">Calculate the change in entropy when 2 moles of an ideal gas expand isothermally at 300K from 10L to 20L.</p>
+                            <button onclick="openAI('Q1')" class="bg-slate-900 hover:bg-blue-600 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors shadow-sm flex items-center gap-2">
+                                <span>✨</span> Generate Exam-Grade Answer
                             </button>
                         </div>
 
-                        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
-                            <div class="flex justify-between items-start mb-3">
-                                <div class="flex gap-2">
-                                    <span class="px-2.5 py-1 bg-amber-50 text-amber-700 rounded-md text-xs font-bold border border-amber-100">Mid-term (30 Marks)</span>
-                                    <span class="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-medium border border-slate-200">Year: 2022</span>
+                        <div class="bg-white dark:bg-darkcard rounded-2xl p-7 border border-slate-200 dark:border-darkborder shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400 rounded-lg text-xs font-bold border border-amber-100 dark:border-amber-500/20">Mid-term (30 Marks)</span>
+                                    <span class="px-3 py-1 bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-600">Year: 2022</span>
                                 </div>
-                                <span class="text-xs text-slate-400 font-medium">Topic: Carnot Engine</span>
+                                <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-wide uppercase">Topic: Carnot Engine</span>
                             </div>
-                            <p class="text-slate-800 font-medium text-lg mb-4">A Carnot engine operates between two heat reservoirs at temperatures 500K and 300K. If it absorbs 1000J of heat from the hot reservoir, what is the work done?</p>
-                            <button onclick="openAI('Q2')" class="bg-slate-900 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                                ✨ Generate Exam-Grade Answer
+                            <p class="text-slate-800 dark:text-slate-200 font-medium text-lg mb-6 leading-relaxed">A Carnot engine operates between two heat reservoirs at temperatures 500K and 300K. If it absorbs 1000J of heat from the hot reservoir, what is the work done?</p>
+                            <button onclick="openAI('Q2')" class="bg-slate-900 hover:bg-blue-600 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors shadow-sm flex items-center gap-2">
+                                <span>✨</span> Generate Exam-Grade Answer
                             </button>
                         </div>
                     </div>
@@ -158,62 +193,72 @@
         </main>
     </div>
 
-    <div id="aiPanel" class="ai-panel absolute top-0 right-0 w-[500px] h-full bg-white border-l border-slate-200 shadow-2xl flex flex-col z-50">
-        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+    <div id="aiPanel" class="ai-panel absolute top-0 right-0 w-[550px] h-full bg-white/95 dark:bg-darkcard/95 backdrop-blur-xl border-l border-slate-200 dark:border-darkborder shadow-2xl flex flex-col z-50">
+        <div class="p-6 border-b border-slate-100 dark:border-darkborder flex justify-between items-center bg-slate-50/50 dark:bg-darkbg/50">
             <div>
-                <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2"><span>✨</span> Exam-Grade Solution</h3>
-                <p class="text-xs text-slate-500 mt-1">Generated via Gemini Pro & External RAG</p>
+                <h3 class="font-extrabold text-slate-900 dark:text-white text-lg flex items-center gap-2"><span class="text-xl">✨</span> Exam-Grade Solution</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Generated via Gemini Pro & External RAG</p>
             </div>
-            <button onclick="closeAI()" class="text-slate-400 hover:bg-slate-200 p-2 rounded-md">
+            <button onclick="closeAI()" class="text-slate-400 dark:text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 p-2 rounded-lg transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
 
-        <div class="p-6 flex-1 overflow-y-auto">
-            <div class="bg-green-50/50 border border-green-200 rounded-xl p-4 mb-6 text-sm text-green-800">
-                <strong class="flex items-center gap-1 mb-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Grounding Sources Active:</strong>
-                <ul class="list-disc pl-5 text-green-700/80 mt-1 space-y-1">
+        <div class="p-8 flex-1 overflow-y-auto">
+            <div class="bg-green-50/80 dark:bg-emerald-900/20 border border-green-200 dark:border-emerald-800/50 rounded-xl p-5 mb-8 text-sm">
+                <strong class="flex items-center gap-2 mb-2 text-green-800 dark:text-emerald-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Grounding Sources Active:</strong>
+                <ul class="list-disc pl-6 text-green-700 dark:text-emerald-300/80 mt-1 space-y-1.5 font-medium">
                     <li><em>Fundamentals of Physics (11th Ed).pdf</em> - Chapter 18</li>
                     <li>Google Search: MIT OpenCourseWare recent examples</li>
                 </ul>
             </div>
 
-            <div id="loader" class="space-y-4">
+            <div id="loader" class="space-y-5">
                 <div class="skeleton h-4 w-3/4"></div>
                 <div class="skeleton h-4 w-full"></div>
-                <div class="skeleton h-32 w-full mt-4"></div>
+                <div class="skeleton h-4 w-5/6"></div>
+                <div class="skeleton h-32 w-full mt-6"></div>
             </div>
             
-            <div id="finalAnswer" class="hidden text-slate-700 text-sm leading-relaxed"></div>
+            <div id="finalAnswer" class="hidden text-slate-700 dark:text-slate-300 text-sm leading-relaxed"></div>
         </div>
     </div>
 
-    <div id="uploadModal" class="modal fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center">
-        <div class="bg-white rounded-2xl p-8 w-[500px] shadow-2xl transform transition-all">
-            <h3 class="text-xl font-bold text-slate-800 mb-2">Process Exam Paper</h3>
-            <p class="text-sm text-slate-500 mb-6">Gemini Pro Vision will extract text and categorize it.</p>
+    <div id="uploadModal" class="modal fixed inset-0 bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div class="bg-white dark:bg-darkcard rounded-2xl p-8 w-[500px] shadow-2xl transform transition-all border border-slate-100 dark:border-darkborder">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Process Exam Paper</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 font-medium">Gemini Pro Vision will extract text and categorize it.</p>
             
-            <div id="dropZone" class="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center relative overflow-hidden bg-slate-50">
+            <div id="dropZone" class="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl p-8 text-center relative overflow-hidden bg-slate-50 dark:bg-darkbg/50 transition-colors">
                 <div class="scanner-line"></div>
-                <svg class="w-10 h-10 text-slate-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                <p class="text-slate-600 font-medium" id="uploadText">Drag image here or click to browse</p>
+                <svg class="w-12 h-12 text-slate-400 dark:text-slate-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <p class="text-slate-600 dark:text-slate-300 font-semibold" id="uploadText">Drag image here or click to browse</p>
             </div>
 
-            <div class="mt-6 flex justify-end gap-3">
-                <button onclick="closeUploadModal()" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg font-medium">Cancel</button>
-                <button onclick="simulateTranscription()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">Start Processing</button>
+            <div class="mt-8 flex justify-end gap-3">
+                <button onclick="closeUploadModal()" class="px-5 py-2.5 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg font-semibold transition-colors">Cancel</button>
+                <button onclick="simulateTranscription()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white rounded-lg font-semibold transition-colors shadow-sm">Start Processing</button>
             </div>
         </div>
     </div>
+
+    <div id="overlay" onclick="closeAI()" class="fixed inset-0 bg-slate-900/20 dark:bg-black/40 backdrop-blur-sm z-40 hidden transition-opacity"></div>
 
     <script>
-        // AI Panel Logic
+        // --- Theme Toggle Logic ---
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // --- AI Panel Logic ---
         const aiPanel = document.getElementById('aiPanel');
+        const overlay = document.getElementById('overlay');
         const loader = document.getElementById('loader');
         const finalAnswer = document.getElementById('finalAnswer');
 
         function openAI(qId) {
             aiPanel.classList.add('open');
+            overlay.classList.remove('hidden');
             loader.classList.remove('hidden');
             finalAnswer.classList.add('hidden');
 
@@ -221,27 +266,32 @@
                 loader.classList.add('hidden');
                 finalAnswer.classList.remove('hidden');
                 finalAnswer.innerHTML = `
-                    <h4 class="font-bold text-slate-900 mb-3 text-base border-b pb-2">Full Exam-Grade Solution</h4>
-                    <p class="mb-3"><strong>1. Identify the concept:</strong> This question tests the understanding of entropy change (ΔS) for an isothermal expansion of an ideal gas. According to <em>Fundamentals of Physics, Ch 18, Sec 18.2</em>.</p>
-                    <p class="mb-3"><strong>2. State the Formula:</strong><br>
-                    For an isothermal process, the change in entropy is:<br>
-                    <span class="block bg-slate-100 p-3 rounded font-mono text-center my-2 border border-slate-200">ΔS = nR ln(V₂ / V₁)</span></p>
-                    <p class="mb-3"><strong>3. Execution:</strong><br>
-                    • n = 2 moles<br>
-                    • R = 8.314 J/(mol·K) (Verified via Web Search)<br>
-                    • V₁ = 10 L, V₂ = 20 L</p>
-                    <p class="mb-3 bg-slate-50 p-3 rounded">ΔS = (2)(8.314) ln(20/10) = 16.628 × 0.693</p>
-                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r mt-4">
-                        <span class="font-bold text-blue-900">Final Answer:</span><br>
-                        <span class="text-blue-800 text-lg font-semibold">ΔS = +11.53 J/K</span>
+                    <h4 class="font-bold text-slate-900 dark:text-white mb-4 text-base border-b border-slate-200 dark:border-darkborder pb-3">Full Exam-Grade Solution</h4>
+                    <div class="space-y-4 text-base">
+                        <p><strong>1. Identify the concept:</strong> This question tests the understanding of entropy change (ΔS) for an isothermal expansion of an ideal gas. According to <em>Fundamentals of Physics, Ch 18, Sec 18.2</em>.</p>
+                        <p><strong>2. State the Formula:</strong><br>
+                        For an isothermal process, the change in entropy is:<br>
+                        <span class="block bg-slate-100 dark:bg-slate-800 p-4 rounded-lg font-mono text-center my-3 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 shadow-inner">ΔS = nR ln(V₂ / V₁)</span></p>
+                        <p><strong>3. Execution:</strong><br>
+                        • n = 2 moles<br>
+                        • R = 8.314 J/(mol·K) (Verified via Web Search)<br>
+                        • V₁ = 10 L, V₂ = 20 L</p>
+                        <p class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg border border-slate-100 dark:border-slate-700/50">ΔS = (2)(8.314) ln(20/10) = 16.628 × 0.693</p>
+                        <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-5 rounded-r-lg mt-6 shadow-sm">
+                            <span class="font-bold text-blue-900 dark:text-blue-300 uppercase tracking-wider text-xs">Final Answer</span><br>
+                            <span class="text-blue-800 dark:text-blue-400 text-xl font-extrabold block mt-1">ΔS = +11.53 J/K</span>
+                        </div>
                     </div>
                 `;
             }, 2000);
         }
 
-        function closeAI() { aiPanel.classList.remove('open'); }
+        function closeAI() { 
+            aiPanel.classList.remove('open'); 
+            overlay.classList.add('hidden');
+        }
 
-        // Upload & Transcribe Logic
+        // --- Upload & Transcribe Logic ---
         const uploadModal = document.getElementById('uploadModal');
         const dropZone = document.getElementById('dropZone');
         const uploadText = document.getElementById('uploadText');
@@ -260,25 +310,23 @@
             
             setTimeout(() => {
                 closeUploadModal();
-                // Add the newly transcribed question to the DOM
                 const newQuestion = document.createElement('div');
-                newQuestion.className = "bg-white rounded-xl p-6 border border-blue-200 shadow-md ring-1 ring-blue-100 mt-4 animate-pulse";
-                setTimeout(() => newQuestion.classList.remove('animate-pulse'), 1500);
+                newQuestion.className = "bg-white dark:bg-darkcard rounded-2xl p-7 border border-indigo-200 dark:border-indigo-500/30 shadow-md ring-2 ring-indigo-50 dark:ring-indigo-900/20 mt-4 transition-all";
                 
                 newQuestion.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex gap-2">
-                            <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-md text-xs font-bold border border-indigo-100">Incourse (15 Marks)</span>
-                            <span class="px-2.5 py-1 bg-green-50 text-green-700 rounded-md text-xs font-bold border border-green-200">✨ Just Transcribed</span>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400 rounded-lg text-xs font-bold border border-indigo-100 dark:border-indigo-500/20">Incourse (15 Marks)</span>
+                            <span class="px-3 py-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-lg text-xs font-bold border border-emerald-200 dark:border-emerald-500/20 animate-pulse">✨ Just Transcribed</span>
                         </div>
-                        <span class="text-xs text-slate-400 font-medium">Topic: First Law</span>
+                        <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-wide uppercase">Topic: First Law</span>
                     </div>
-                    <p class="text-slate-800 font-medium text-lg mb-4">State the First Law of Thermodynamics and express it mathematically. Explain the sign conventions for Heat (Q) and Work (W).</p>
-                    <button onclick="openAI('Q3')" class="bg-slate-900 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                        ✨ Generate Exam-Grade Answer
+                    <p class="text-slate-800 dark:text-slate-200 font-medium text-lg mb-6 leading-relaxed">State the First Law of Thermodynamics and express it mathematically. Explain the sign conventions for Heat (Q) and Work (W).</p>
+                    <button onclick="openAI('Q3')" class="bg-slate-900 hover:bg-blue-600 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors shadow-sm flex items-center gap-2">
+                        <span>✨</span> Generate Exam-Grade Answer
                     </button>
                 `;
-                questionList.prepend(newQuestion); // Add to top of list
+                questionList.prepend(newQuestion); 
             }, 2500);
         }
     </script>
